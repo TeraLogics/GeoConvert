@@ -21,24 +21,24 @@
  *
  * ABSTRACT
  *
- *    This component converts between geodetic coordinates (latitude and 
- *    longitude) and Military Grid Reference System (MGRS) coordinates. 
+ *    This component converts between geodetic coordinates (latitude and
+ *    longitude) and Military Grid Reference System (MGRS) coordinates.
  *
  * ERROR HANDLING
  *
  *    This component checks parameters for valid values.  If an invalid value
- *    is found, the error code is combined with the current error code using 
+ *    is found, the error code is combined with the current error code using
  *    the bitwise or.  This combining allows multiple error codes to be
  *    returned. The possible error codes are:
  *
  *          MGRS_NO_ERROR          : No errors occurred in function
- *          MGRS_LAT_ERROR         : Latitude outside of valid range 
+ *          MGRS_LAT_ERROR         : Latitude outside of valid range
  *                                    (-90 to 90 degrees)
  *          MGRS_LON_ERROR         : Longitude outside of valid range
  *                                    (-180 to 360 degrees)
  *          MGRS_STR_ERROR         : An MGRS string error: string too long,
  *                                    too short, or badly formed
- *          MGRS_PRECISION_ERROR   : The precision must be between 0 and 5 
+ *          MGRS_PRECISION_ERROR   : The precision must be between 0 and 5
  *                                    inclusive.
  *          MGRS_A_ERROR           : Semi-major axis less than or equal to zero
  *          MGRS_INV_F_ERROR       : Inverse flattening outside of valid range
@@ -112,13 +112,35 @@
  *      mgrs.h      - function prototype error checking
  */
 
+/***************************************************************************/
+/*
+ *                          Linux Build Details
+ */
+#ifndef _WIN32
+
+#define sprintf_s snprintf
+#define sscanf_s sscanf
+
+static int strcpy_s(char* dst, size_t dstSize, const char* src)
+{
+    strcpy(dst, src);
+    return 0;
+}
+
+static int strncpy_s(char* dst, size_t dstSize, const char* src, size_t srcSize)
+{
+    strcpy(dst, src);
+    return 0;
+}
+
+#endif // _WIN32
 
 /***************************************************************************/
 /*
  *                              GLOBAL DECLARATIONS
  */
 #define DEGRAD       0.017453292519943295 /* PI/180                          */
-#define R3           0.052359877559829890 /* RADIANS FOR  3 DEGREES          */ 
+#define R3           0.052359877559829890 /* RADIANS FOR  3 DEGREES          */
 #define R8           0.139626340159546400 /* RADIANS FOR  8 DEGREES          */
 #define R9           0.157079632679489700 /* RADIANS FOR  9 DEGREES          */
 #define R21          0.366519142918809200 /* RADIANS FOR  21 DEGREES         */
@@ -128,8 +150,8 @@
 #define R72          1.256637061435917000 /* RADIANS FOR  72 DEGREES         */
 #define R80          1.396263401595464000 /* RADIANS FOR  80 DEGREES         */
 #define UPS_SOUTH              3    /* UPS COORDINATE IN SOUTHERN HEMISPHERE */
-#define UPS_NORTH              2    /* UPS COORDINATE IN NORTHERN HEMISPHERE */ 
-#define UTM                    1    /* UTM COORDINATE                        */ 
+#define UPS_NORTH              2    /* UPS COORDINATE IN NORTHERN HEMISPHERE */
+#define UTM                    1    /* UTM COORDINATE                        */
 #define ALBET                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" /* ALPHABET       */
 #define LETTER_A               0   /* ARRAY INDEX FOR LETTER A               */
 #define LETTER_B               1   /* ARRAY INDEX FOR LETTER B               */
@@ -198,7 +220,7 @@ char   MGRS_Ellipsoid_Code[3] = {'W','E',0};
 const char* CLARKE_1866 = "CC";
 const char* CLARKE_1880 = "CD";
 const char* BESSEL_1841 = "BR";
-/* 
+/*
  *    CLARKE_1866 : Ellipsoid code for CLARKE_1866
  *    CLARKE_1880 : Ellipsoid code for CLARKE_1880
  *    BESSEL_1841 : Ellipsoid code for BESSEL_1841
@@ -207,7 +229,7 @@ const char* BESSEL_1841 = "BR";
 
 /***************************************************************************/
 /*
- *                              FUNCTIONS     
+ *                              FUNCTIONS
  */
 
 

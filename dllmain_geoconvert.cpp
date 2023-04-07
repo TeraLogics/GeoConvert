@@ -1,11 +1,15 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
+#ifdef WIN32
 #include <windows.h>
+#endif // WIN32
+
 #include "geoconvert.h"
 #include <math.h>
 #include "mgrs.h"
 #include "utm.h"
 
 
+#ifdef WIN32
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -13,7 +17,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 {
     switch (ul_reason_for_call)
     {
-    case DLL_PROCESS_ATTACH: 
+    case DLL_PROCESS_ATTACH:
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
@@ -21,6 +25,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     }
     return TRUE;
 }
+#endif // WIN32
 
 /*TEST(geoconvert, wgs_2_utm_2_wgs)
 {
@@ -159,7 +164,7 @@ extern "C"
                                   double Longitude)
     {
         double lat = Latitude*PI/180.0;
-        double lng = Longitude*PI/180.0; 
+        double lng = Longitude*PI/180.0;
 
         int status = Convert_Geodetic_To_MGRS(lat, lng, 5, MGRS);
         return (status != MGRS_NO_ERROR) ? GCONV_FAILURE : GCONV_SUCCESS;
@@ -188,7 +193,7 @@ extern "C"
                                  double Longitude)
     {
         double lat = Latitude*PI/180.0;
-        double lng = Longitude*PI/180.0; 
+        double lng = Longitude*PI/180.0;
 
         int status = Convert_Geodetic_To_UTM(lat, lng, Zone, Hemisphere, Easting, Northing);
 
