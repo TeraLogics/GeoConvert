@@ -28,3 +28,4 @@ bin64
 *.db
 .idea/
 .vscode/
+*.a
